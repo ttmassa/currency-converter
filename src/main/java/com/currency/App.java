@@ -4,13 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -39,7 +35,7 @@ public class App extends Application {
         VBox insideSection = new VBox();
         insideSection.getStyleClass().add("inside-section");
         insideSection.setAlignment(Pos.CENTER);
-        insideSection.setSpacing(120);
+        insideSection.setSpacing(75);
         section.setCenter(insideSection);
 
         // Create the Scene
@@ -68,11 +64,13 @@ public class App extends Application {
         TextField inputField = new TextField();
         inputField.getStyleClass().add("input-field");
         inputField.setPromptText("Enter the amount");
+        inputField.setPrefHeight(35);
         textFields.getChildren().add(inputField);
 
         // Currency input field
         TextField currencyField = new TextField();
         currencyField.getStyleClass().add("input-field");
+        currencyField.setPrefHeight(35);
         textFields.getChildren().add(currencyField);
 
         // Convert button
