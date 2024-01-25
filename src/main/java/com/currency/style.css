@@ -1,9 +1,46 @@
 .root {
     -fx-background-color: #f2f2f2;
+    background-color: #f2f2f2;
+}
+
+.header {
+    height: 50vh;
+    padding: 20px;
+    background-color: #235be9;
+
+    -fx-height: 50vh;
+    -fx-padding: 20px;
+    -fx-background-color: #235be9;
 }
 
 .title {
+    -fx-text-align: center;
     -fx-font-size: 28px;
-    -fx-color: #000000;
-    -fx-border: 1px solid red;
+    text-align: center;
+    font-size: 28px;
+}
+
+.text-fields {
+    -fx-padding: 20px;
+    -fx-alignment: center;
+    padding: 20px;
+}
+
+.input-field {
+    -fx-width: 100px;
+    -fx-height: 40px;
+    width: 100px;
+    height: 40px;
+}
+
+.convert-button {
+    -fx-font-size: 18px;
+    -fx-background-color: #235be9;
+    -fx-text-fill: #fff;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    font-size: 18px;
+    background-color: #235be9;
+    padding: 10px 20px;
+    border-radius: 5px;
 }

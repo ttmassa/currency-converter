@@ -4,10 +4,15 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -19,23 +24,19 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        StackPane root = new StackPane();
-        root.getStyleClass().add("root"); 
+        BorderPane root = new BorderPane();
 
-        VBox main = new VBox();
-        main.getStyleClass().add("main");
-        main.setAlignment(Pos.CENTER);
-
-        HBox header = new HBox();
+        // Create the main layout components
+        VBox header = new VBox();
         header.getStyleClass().add("header");
         header.setAlignment(Pos.CENTER);
-        main.getChildren().add(header);
+        root.setTop(header);
 
-        HBox section = new HBox();
+        BorderPane section = new BorderPane();
         section.getStyleClass().add("section");
-        section.setAlignment(Pos.CENTER);
-        main.getChildren().add(section);
+        root.setCenter(section);
 
+        // Create the Scene
         Scene scene = new Scene(root, 500, 700);
 
         stage.setScene(scene);
@@ -44,16 +45,34 @@ public class App extends Application {
         stage.setX(1000);
         stage.setY(40);
 
+        // Title
         Text title = new Text("Precision Purse");
         title.getStyleClass().add("title");
+        title.setFill(Color.WHITE);
         header.getChildren().add(title);
 
+        // Create the input text fields
+        HBox textFields = new HBox();
+        textFields.getStyleClass().add("text-fields");
+        textFields.setAlignment(Pos.CENTER);
+        textFields.setSpacing(80);
+        section.setTop(textFields);
+        
+        // Amount input field
+        TextField inputField = new TextField();
+        inputField.getStyleClass().add("input-field");
+        inputField.setPromptText("Enter the amount");
+        textFields.getChildren().add(inputField);
+
+        // Currency input field
+        TextField currencyField = new TextField();
+        currencyField.getStyleClass().add("input-field");
+        textFields.getChildren().add(currencyField);
+
+        // Convert button
         Button convertButton = new Button("Convert");
-        section.getChildren().add(convertButton);
-
-        main.getChildren().add(new Region());
-
-        root.getChildren().add(main);
+        convertButton.getStyleClass().add("convert-button");
+        section.setCenter(convertButton);
 
         // Exit the application when the window is closed
         stage.setOnCloseRequest(event -> System.exit(0));
