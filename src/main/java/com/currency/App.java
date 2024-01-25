@@ -36,6 +36,12 @@ public class App extends Application {
         section.getStyleClass().add("section");
         root.setCenter(section);
 
+        VBox insideSection = new VBox();
+        insideSection.getStyleClass().add("inside-section");
+        insideSection.setAlignment(Pos.CENTER);
+        insideSection.setSpacing(120);
+        section.setCenter(insideSection);
+
         // Create the Scene
         Scene scene = new Scene(root, 500, 700);
 
@@ -56,7 +62,7 @@ public class App extends Application {
         textFields.getStyleClass().add("text-fields");
         textFields.setAlignment(Pos.CENTER);
         textFields.setSpacing(80);
-        section.setTop(textFields);
+        insideSection.getChildren().add(textFields);
         
         // Amount input field
         TextField inputField = new TextField();
@@ -72,7 +78,7 @@ public class App extends Application {
         // Convert button
         Button convertButton = new Button("Convert");
         convertButton.getStyleClass().add("convert-button");
-        section.setCenter(convertButton);
+        insideSection.getChildren().add(convertButton);
 
         // Exit the application when the window is closed
         stage.setOnCloseRequest(event -> System.exit(0));
