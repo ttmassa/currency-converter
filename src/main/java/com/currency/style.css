@@ -1,4 +1,9 @@
-.background {
-    background-color: #af2424;
-    -fx-background-color: #dc2f2f;
+.root {
+    -fx-background-color: #f2f2f2;
+}
+
+.title {
+    -fx-font-size: 28px;
+    -fx-color: #000000;
+    -fx-border: 1px solid red;
 }
