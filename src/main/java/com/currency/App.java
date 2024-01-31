@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -29,7 +28,20 @@ public class App extends Application {
 
     private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest";
     private static final String API_KEY = "fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
-    private static final String[] currencies = {"EUR", "USD", "GBP"};
+
+    public static void configureComboBox(ComboBox<String> comboBox, double prefWidth, double prefHeight) {
+        ObservableList<String> currencies = FXCollections.observableArrayList("AUD", "BGN", "BRL", "CAD", "CHF", "EUR", "GBP","USD");
+        comboBox.getStyleClass().add("combo-box");
+        comboBox.setItems(currencies);
+        comboBox.setPrefWidth(prefWidth);
+        comboBox.setPrefHeight(prefHeight);
+
+        comboBox.setOnAction(e -> {
+            String selectedOption = comboBox.getValue();
+
+            comboBox.setValue(selectedOption);
+        });
+    }
 
     @Override
     public void start(Stage stage) {
@@ -94,27 +106,15 @@ public class App extends Application {
         resultField.setPrefHeight(35);
         resultSelection.getChildren().add(resultField);
 
-        ObservableList<String> currencies = FXCollections.observableArrayList("AUD", "BGN", "BRL", "CAD", "CHF", "EUR", "GBP","USD");
-
-        ComboBox<String> currencyComboBox = new ComboBox<>(currencies);
-        currencyComboBox.getStyleClass().add("combo-box");
-        currencyComboBox.setPrefHeight(33.5);
-        currencyComboBox.setPrefWidth(100);
+        ComboBox<String> currencyComboBox = new ComboBox<>();
+        configureComboBox(currencyComboBox, 100, 33.5);
         currencyComboBox.setValue("EUR");
         inputSelection.getChildren().add(currencyComboBox);
 
-        ComboBox<String> resultComboBox = new ComboBox<>(currencies);
-        resultComboBox.getStyleClass().add("combo-box");
-        resultComboBox.setPrefHeight(33.5);
-        resultComboBox.setPrefWidth(100);
-        resultComboBox.setValue("EUR");
+        ComboBox<String> resultComboBox = new ComboBox<>();
+        configureComboBox(resultComboBox, 100, 33.5);
+        resultComboBox.setValue("USD");
         resultSelection.getChildren().add(resultComboBox);
-
-        currencyComboBox.setOnAction(e -> {
-            String selectedOption = currencyComboBox.getValue();
-
-            currencyComboBox.setValue(selectedOption);
-        });
 
         // Format the input field to only accept numbers
         UnaryOperator<TextFormatter.Change> filter = change -> {
