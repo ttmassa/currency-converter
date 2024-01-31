@@ -26,11 +26,26 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest";
+    private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
     private static final String API_KEY = "fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
 
     public static void configureComboBox(ComboBox<String> comboBox, double prefWidth, double prefHeight) {
-        ObservableList<String> currencies = FXCollections.observableArrayList("AUD", "BGN", "BRL", "CAD", "CHF", "EUR", "GBP","USD");
+        ObservableList<String> currencies = FXCollections.observableArrayList(
+            "AUD", 
+            "BGN", 
+            "BRL", 
+            "CAD", 
+            "CHF", 
+            "CNY",
+            "CZK",
+            "DKK",
+            "EUR", 
+            "GBP",
+            "HKD",
+            "JPY",
+            "USD"
+
+        );
         comboBox.getStyleClass().add("combo-box");
         comboBox.setItems(currencies);
         comboBox.setPrefWidth(prefWidth);
@@ -176,7 +191,7 @@ public class App extends Application {
 
                 double exchangeRate = getExchangeRateFromJson(responseBody);
 
-                double convertedAmount = Math.round((amount * exchangeRate) * 100.0) / 100.0;
+                double convertedAmount = Math.round((amount * exchangeRate) * 100.00) / 100.00;
 
                 connection.disconnect();
 
