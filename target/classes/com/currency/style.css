@@ -36,12 +36,12 @@
 }
 
 .combo-box {
-    -fx-width: 10px;
     -fx-height: 40px;
     -fx-background-color: #fff;
-    width: 10px;
-    height: 40px;
+    -fx-font-size: 9.3px;
+    height: 80px;
     background-color: #fff;
+    font-size: 9.3px;
 }
 
 .convert-button {

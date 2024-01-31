@@ -29,6 +29,7 @@ public class App extends Application {
 
     private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest";
     private static final String API_KEY = "fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
+    private static final String[] currencies = {"EUR", "USD", "GBP"};
 
     @Override
     public void start(Stage stage) {
@@ -93,15 +94,19 @@ public class App extends Application {
         resultField.setPrefHeight(35);
         resultSelection.getChildren().add(resultField);
 
-        ObservableList<String> currencies = FXCollections.observableArrayList("EUR", "USD", "YEN", "GBP");
+        ObservableList<String> currencies = FXCollections.observableArrayList("AUD", "BGN", "BRL", "CAD", "CHF", "EUR", "GBP","USD");
 
         ComboBox<String> currencyComboBox = new ComboBox<>(currencies);
         currencyComboBox.getStyleClass().add("combo-box");
+        currencyComboBox.setPrefHeight(33.5);
+        currencyComboBox.setPrefWidth(100);
         currencyComboBox.setValue("EUR");
         inputSelection.getChildren().add(currencyComboBox);
 
         ComboBox<String> resultComboBox = new ComboBox<>(currencies);
         resultComboBox.getStyleClass().add("combo-box");
+        resultComboBox.setPrefHeight(33.5);
+        resultComboBox.setPrefWidth(100);
         resultComboBox.setValue("EUR");
         resultSelection.getChildren().add(resultComboBox);
 
@@ -159,8 +164,6 @@ public class App extends Application {
                 double convertedAmount = Math.round((amount * exchangeRate) * 100.0) / 100.0;
 
                 connection.disconnect();
-
-                System.out.println("Converted amount: " + convertedAmount);
 
                 return convertedAmount;
             } else {
