@@ -1,6 +1,12 @@
 package com.currency;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -19,8 +25,8 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private static final String API_URL = "https://open.er-api.com/v6/latest/";
-    private static final String API_KEY = "adc48f4fb2364473bf5f672e45fe3679";
+    private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest";
+    private static final String API_KEY = "fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
 
     @Override
     public void start(Stage stage) {
@@ -91,6 +97,14 @@ public class App extends Application {
         convertButton.getStyleClass().add("convert-button");
         insideSection.getChildren().add(convertButton);
 
+        convertButton.setOnAction(e -> {
+            double amount = Double.parseDouble(inputField.getText());
+            String currency = "EUR";
+            String toCurrency = "USD";
+            
+            convertCurrency(currency, toCurrency, amount);
+        });
+
         // Exit the application when the window is closed
         stage.setOnCloseRequest(event -> System.exit(0));
 
@@ -98,8 +112,46 @@ public class App extends Application {
     }
 
     private static double convertCurrency(String fromCurrency, String toCurrency, double amount) {
+        // try {
+            String apiUrl = API_URL + "?apikey=" + API_KEY + "&currencies=" + toCurrency + "&base_currency=" + fromCurrency;
+
+            System.out.println(apiUrl);
+
+            return 0.0;
+
+        //     HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+        //     connection.setRequestMethod("GET");
+
+        //     int responseCode = connection.getResponseCode();
+
+        //     if (responseCode == HttpURLConnection.HTTP_OK) {
+        //         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        //         String responseBody = reader.lines().collect(Collectors.joining());
+
+        //         double exchangeRate = getExchangeRateFromJson(responseBody);
+
+        //         double convertedAmount = amount * exchangeRate;
+
+        //         connection.disconnect();
+
+        //         return convertedAmount;
+        //     } else {
+        //         System.out.println("Error: " + responseCode);
+        //         return 0.0;
+        //     }
+ 
+        // } catch (Exception e) {
+        //     System.out.println("Error: " + e.getMessage());
+        //     return 0.0;
+        // }
         
-        return 0.0;
+    }
+
+    private static double getExchangeRateFromJson(String json) {
+        int index = json.indexOf("exchangeRate");
+        String exchangeRate = json.substring(index + 14, index + 20);
+
+        return Double.parseDouble(exchangeRate);
     }
    public static void main(String args[]){
       launch(args);
