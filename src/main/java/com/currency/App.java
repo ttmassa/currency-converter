@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
+    private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest?";
     private static final String API_KEY = "fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
 
     public static void configureComboBox(ComboBox<String> comboBox, double prefWidth, double prefHeight) {
