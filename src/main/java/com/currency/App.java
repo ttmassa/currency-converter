@@ -8,9 +8,12 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
@@ -66,19 +69,47 @@ public class App extends Application {
         textFields.setAlignment(Pos.CENTER);
         textFields.setSpacing(80);
         insideSection.getChildren().add(textFields);
+
+        HBox inputSelection = new HBox();
+        inputSelection.getStyleClass().add("input-selection");
+        inputSelection.setAlignment(Pos.CENTER);
+        textFields.getChildren().add(inputSelection);
+
+        HBox resultSelection = new HBox();
+        resultSelection.getStyleClass().add("result-selection");
+        resultSelection.setAlignment(Pos.CENTER);
+        textFields.getChildren().add(resultSelection);
         
         // Amount input field
         TextField inputField = new TextField();
         inputField.getStyleClass().add("input-field");
         inputField.setPromptText("Enter the amount");
         inputField.setPrefHeight(35);
-        textFields.getChildren().add(inputField);
+        inputSelection.getChildren().add(inputField);
 
         // Currency input field
         TextField resultField = new TextField();
         resultField.getStyleClass().add("input-field");
         resultField.setPrefHeight(35);
-        textFields.getChildren().add(resultField);
+        resultSelection.getChildren().add(resultField);
+
+        ObservableList<String> currencies = FXCollections.observableArrayList("EUR", "USD", "YEN", "GBP");
+
+        ComboBox<String> currencyComboBox = new ComboBox<>(currencies);
+        currencyComboBox.getStyleClass().add("combo-box");
+        currencyComboBox.setValue("EUR");
+        inputSelection.getChildren().add(currencyComboBox);
+
+        ComboBox<String> resultComboBox = new ComboBox<>(currencies);
+        resultComboBox.getStyleClass().add("combo-box");
+        resultComboBox.setValue("EUR");
+        resultSelection.getChildren().add(resultComboBox);
+
+        currencyComboBox.setOnAction(e -> {
+            String selectedOption = currencyComboBox.getValue();
+
+            currencyComboBox.setValue(selectedOption);
+        });
 
         // Format the input field to only accept numbers
         UnaryOperator<TextFormatter.Change> filter = change -> {
@@ -98,8 +129,8 @@ public class App extends Application {
 
         convertButton.setOnAction(e -> {
             double amount = Double.parseDouble(inputField.getText());
-            String currency = "EUR";
-            String toCurrency = "USD";
+            String currency = currencyComboBox.getValue();
+            String toCurrency = resultComboBox.getValue();
             
             resultField.setText("" + convertCurrency(currency, toCurrency, amount));
         });
