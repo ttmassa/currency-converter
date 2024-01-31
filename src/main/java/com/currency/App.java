@@ -75,10 +75,10 @@ public class App extends Application {
         textFields.getChildren().add(inputField);
 
         // Currency input field
-        TextField currencyField = new TextField();
-        currencyField.getStyleClass().add("input-field");
-        currencyField.setPrefHeight(35);
-        textFields.getChildren().add(currencyField);
+        TextField resultField = new TextField();
+        resultField.getStyleClass().add("input-field");
+        resultField.setPrefHeight(35);
+        textFields.getChildren().add(resultField);
 
         // Format the input field to only accept numbers
         UnaryOperator<TextFormatter.Change> filter = change -> {
@@ -101,7 +101,7 @@ public class App extends Application {
             String currency = "EUR";
             String toCurrency = "USD";
             
-            currencyField.setText("" + convertCurrency(currency, toCurrency, amount));
+            resultField.setText("" + convertCurrency(currency, toCurrency, amount));
         });
 
         // Exit the application when the window is closed
