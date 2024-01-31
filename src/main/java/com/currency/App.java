@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private static final String API_URL = "https://api.freecurrencyapi.com/v1/latest?";
+    private static final String API_URL = "https://api.freecurrencyapi.com/v1";
     private static final String API_KEY = "fca_live_myauxWbv97YDmGfrcAq0Kc3Cgh5CHLGuflvMcMhM";
 
     public static void configureComboBox(ComboBox<String> comboBox, double prefWidth, double prefHeight) {
@@ -178,7 +178,7 @@ public class App extends Application {
 
     private static double convertCurrency(String fromCurrency, String toCurrency, double amount) {
         try {
-            String apiUrl = API_URL + "?apikey=" + API_KEY + "&currencies=" + toCurrency + "&base_currency=" + fromCurrency;
+            String apiUrl = API_URL + "/latest?apikey=" + API_KEY + "&currencies=" + toCurrency + "&base_currency=" + fromCurrency;
 
             HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
             connection.setRequestMethod("GET");
@@ -191,7 +191,7 @@ public class App extends Application {
 
                 double exchangeRate = getExchangeRateFromJson(responseBody);
 
-                double convertedAmount = Math.round((amount * exchangeRate) * 100.00) / 100.00;
+                double convertedAmount = Math.round((amount * exchangeRate) * 100.0) / 100.0;
 
                 connection.disconnect();
 
@@ -206,6 +206,35 @@ public class App extends Application {
             return 0.0;
         }
         
+    }
+
+    public static String getSymbol(String currency) {
+        try {
+            String apiUrl = API_URL + "/currencies?apikey=" + API_KEY + "&currencies=" + currency;
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String responseBody = reader.lines().collect(Collectors.joining());
+
+                String symbol = getCurrencySymbolFromJSON(responseBody);
+
+                connection.disconnect();
+
+                return symbol;
+            } else {
+                System.out.println("Error: " + responseCode);
+                return "";
+            }
+ 
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return "";
+        }
     }
 
     private static double getExchangeRateFromJson(String json) {
@@ -224,6 +253,26 @@ public class App extends Application {
             return 0.0;                   
         }
     }
+
+    private static String getCurrencySymbolFromJSON(String json) {
+        try {
+            int dataIndex = json.indexOf("data");
+            String dataObject = json.substring(dataIndex + 7, json.length() - 1);
+    
+            int symbolIndex = dataObject.indexOf("symbol");
+            int colonIndex = dataObject.indexOf(":", symbolIndex);
+    
+            int startQuoteIndex = dataObject.indexOf("\"", colonIndex);
+            int endQuoteIndex = dataObject.indexOf("\"", startQuoteIndex + 1);
+    
+            return dataObject.substring(startQuoteIndex + 1, endQuoteIndex);
+    
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return "";
+        }
+    }
+    
    public static void main(String args[]){
       launch(args);
    }
