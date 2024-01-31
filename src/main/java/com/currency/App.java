@@ -80,13 +80,18 @@ public class App extends Application {
         HBox textFields = new HBox();
         textFields.getStyleClass().add("text-fields");
         textFields.setAlignment(Pos.CENTER);
-        textFields.setSpacing(80);
+        textFields.setSpacing(30);
         insideSection.getChildren().add(textFields);
 
         HBox inputSelection = new HBox();
         inputSelection.getStyleClass().add("input-selection");
         inputSelection.setAlignment(Pos.CENTER);
         textFields.getChildren().add(inputSelection);
+
+        Button invertButton = new Button("↔");
+        invertButton.getStyleClass().add("invert-button");
+        invertButton.setPrefWidth(130);
+        textFields.getChildren().add(invertButton);
 
         HBox resultSelection = new HBox();
         resultSelection.getStyleClass().add("result-selection");
@@ -138,6 +143,16 @@ public class App extends Application {
             String toCurrency = resultComboBox.getValue();
             
             resultField.setText("" + convertCurrency(currency, toCurrency, amount));
+        });
+
+        invertButton.setOnAction(e -> {
+            String tempText = inputField.getText();
+            String tempCurrency = currencyComboBox.getValue();
+    
+            inputField.setText(resultField.getText());
+            resultField.setText(tempText);
+            currencyComboBox.setValue(resultComboBox.getValue());
+            resultComboBox.setValue(tempCurrency);    
         });
 
         // Exit the application when the window is closed
