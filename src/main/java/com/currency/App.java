@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -102,7 +101,7 @@ public class App extends Application {
             String currency = "EUR";
             String toCurrency = "USD";
             
-            convertCurrency(currency, toCurrency, amount);
+            currencyField.setText("" + convertCurrency(currency, toCurrency, amount));
         });
 
         // Exit the application when the window is closed
@@ -112,46 +111,54 @@ public class App extends Application {
     }
 
     private static double convertCurrency(String fromCurrency, String toCurrency, double amount) {
-        // try {
+        try {
             String apiUrl = API_URL + "?apikey=" + API_KEY + "&currencies=" + toCurrency + "&base_currency=" + fromCurrency;
 
-            System.out.println(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+            connection.setRequestMethod("GET");
 
-            return 0.0;
+            int responseCode = connection.getResponseCode();
 
-        //     HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
-        //     connection.setRequestMethod("GET");
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String responseBody = reader.lines().collect(Collectors.joining());
 
-        //     int responseCode = connection.getResponseCode();
+                double exchangeRate = getExchangeRateFromJson(responseBody);
 
-        //     if (responseCode == HttpURLConnection.HTTP_OK) {
-        //         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        //         String responseBody = reader.lines().collect(Collectors.joining());
+                double convertedAmount = Math.round((amount * exchangeRate) * 100.0) / 100.0;
 
-        //         double exchangeRate = getExchangeRateFromJson(responseBody);
+                connection.disconnect();
 
-        //         double convertedAmount = amount * exchangeRate;
+                System.out.println("Converted amount: " + convertedAmount);
 
-        //         connection.disconnect();
-
-        //         return convertedAmount;
-        //     } else {
-        //         System.out.println("Error: " + responseCode);
-        //         return 0.0;
-        //     }
+                return convertedAmount;
+            } else {
+                System.out.println("Error: " + responseCode);
+                return 0.0;
+            }
  
-        // } catch (Exception e) {
-        //     System.out.println("Error: " + e.getMessage());
-        //     return 0.0;
-        // }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return 0.0;
+        }
         
     }
 
     private static double getExchangeRateFromJson(String json) {
-        int index = json.indexOf("exchangeRate");
-        String exchangeRate = json.substring(index + 14, index + 20);
+        try {
+            int index = json.indexOf("data");
+            String rates = json.substring(index + 7, json.length() - 1);
 
-        return Double.parseDouble(exchangeRate);
+            int index2 = rates.indexOf(":");
+
+            String exchangeRate = rates.substring(index2 + 1, rates.length() - 1);
+
+            return Double.parseDouble(exchangeRate);
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return 0.0;                   
+        }
     }
    public static void main(String args[]){
       launch(args);
