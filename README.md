@@ -6,7 +6,7 @@ Welcome to the Currency Converter App repository! This Java application allows u
 
 - **Real-time Exchange Rates**: The app fetches the latest exchange rates from a reliable API to ensure accurate currency conversions.
 - **User-Friendly Interface**: The JavaFX-based graphical user interface provides a seamless and intuitive experience for users.
-- **Multiple Currencies**: Convert between a wide range of currencies, including major fiat currencies and cryptocurrencies.
+- **Multiple Currencies**: Convert between a wide range of currencies, including major fiat currencies.
 
 ## Prerequisites
 
