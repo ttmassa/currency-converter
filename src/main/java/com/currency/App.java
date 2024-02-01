@@ -82,7 +82,7 @@ public class App extends Application {
 
         stage.setScene(scene);
         stage.setTitle("Precision Purse");
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/currency/style.css").toExternalForm());
         stage.setX(1000);
         stage.setY(40);
 
@@ -180,6 +180,7 @@ public class App extends Application {
         try {
             String apiUrl = API_URL + "/latest?apikey=" + API_KEY + "&currencies=" + toCurrency + "&base_currency=" + fromCurrency;
 
+            @SuppressWarnings("deprecation")
             HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
             connection.setRequestMethod("GET");
 
@@ -212,6 +213,7 @@ public class App extends Application {
         try {
             String apiUrl = API_URL + "/currencies?apikey=" + API_KEY + "&currencies=" + currency;
 
+            @SuppressWarnings("deprecation")
             HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
             connection.setRequestMethod("GET");
 

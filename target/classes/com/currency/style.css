@@ -4,13 +4,12 @@
 }
 
 .header {
-    height: 50vh;
-    padding: 20px;
-    background-color: #235be9;
-
     -fx-height: 50vh;
     -fx-padding: 20px;
     -fx-background-color: #235be9;
+    height: 50vh;
+    padding: 20px;
+    background-color: #235be9;
 }
 
 .title {
