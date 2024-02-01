@@ -14,3 +14,11 @@ Before running the application, make sure you have the following installed on yo
 
 - Java Development Kit (JDK) 8 or later
 - Maven
+
+## Getting Started
+
+1. Clone the repository to your local machine.
+
+```bash
+git clone https://github.com/your-username/currency-converter-app.git
+cd currency-converter-app
